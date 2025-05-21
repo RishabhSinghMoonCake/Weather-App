@@ -1,7 +1,7 @@
 class Weather
 {
-  apiKey;
-  apiUrl;
+  #apiKey;
+  #apiUrl;
   city;
   constructor(cityName)
   {
