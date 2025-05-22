@@ -2,24 +2,10 @@ class Weather
 {
   #apiKey;
   #apiUrl;
-  city;
-  weatherIcons;
   constructor()
   {
     this.apiKey='ba42de9455a7f0e343f1d5b421ccd517';
     this.apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=metric';
-    this.city = 'lucknow';
-    this.weatherIcons = {
-      clear : 'images/clear.png',
-      clouds:'images/clouds.png',
-      drizzle:'images/drizzle.png',
-      humidity:'images/humidity.png',
-      mist:'images/mist.png',
-      rain:'images/rain.png',
-      search:'images/search.png',
-      snow:'images/snow.png',
-      wind:'images/wind.png'
-    };
   }
 
   Round(inp)
@@ -37,9 +23,8 @@ class Weather
   displayProperties(data)
   {
     const weatherImg = document.querySelector('.js-weather-img');
-    const weather = data.weather[0].main.toLowerCase();
     
-    weatherImg.src = this.weatherIcons[weather]; 
+    weatherImg.src = `images/${weather}.png`; 
 
 
 
