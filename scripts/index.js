@@ -3,11 +3,23 @@ class Weather
   #apiKey;
   #apiUrl;
   city;
-  constructor(cityName)
+  weatherIcons;
+  constructor()
   {
     this.apiKey='ba42de9455a7f0e343f1d5b421ccd517';
     this.apiUrl = 'https://api.openweathermap.org/data/2.5/weather?units=metric';
-    this.city = cityName;
+    this.city = 'lucknow';
+    this.weatherIcons = {
+      clear : 'images/clear.png',
+      clouds:'images/clouds.png',
+      drizzle:'images/drizzle.png',
+      humidity:'images/humidity.png',
+      mist:'images/mist.png',
+      rain:'images/rain.png',
+      search:'images/search.png',
+      snow:'images/snow.png',
+      wind:'images/wind.png'
+    };
   }
 
   Round(inp)
@@ -15,8 +27,8 @@ class Weather
     return Math.round(inp);
   }
 
-  async checkWeather() {
-    const response = await fetch(this.apiUrl + `&appid=${this.apiKey}` + `&q=${this.city}`);
+  async checkWeather(cityName) {
+    const response = await fetch(this.apiUrl + `&appid=${this.apiKey}` + `&q=${cityName}`);
     const data = await response.json();
     console.log(data);
     this.displayProperties(data);
@@ -24,6 +36,14 @@ class Weather
 
   displayProperties(data)
   {
+    const weatherImg = document.querySelector('.js-weather-img');
+    const weather = data.weather[0].main.toLowerCase();
+    
+    weatherImg.src = this.weatherIcons[weather]; 
+
+
+
+
     document.querySelector('.js-temp').innerHTML = `${this.Round(data.main.temp)}&deg;C`;
     document.querySelector('.js-city-name').innerHTML = `${data.name}`;
     document.querySelector('.js-humidity-value').innerHTML=`${data.main.humidity}%`;
@@ -31,5 +51,30 @@ class Weather
   }
 }
 
-const weatherIns = new Weather('lucknow');
-weatherIns.checkWeather();
+
+
+
+
+function main()
+{
+  const searchButtonEle = document.querySelector('.js-search-button');
+  const searchBarELe = document.querySelector('.js-search-bar');
+  
+  const weatherIns = new Weather();
+  searchButtonEle.addEventListener('click', ()=>{
+    let searchedCityName = searchBarELe.value;
+    console.log(searchedCityName);
+    weatherIns.checkWeather(searchedCityName);
+  });
+
+  searchBarELe.addEventListener('keydown', (event)=>{
+    if(event.key === 'Enter')
+    {
+      let searchedCityName = searchBarELe.value;
+      console.log(searchedCityName);
+      weatherIns.checkWeather(searchedCityName);
+    }
+  });
+}
+
+main();
