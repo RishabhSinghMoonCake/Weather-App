@@ -23,6 +23,7 @@ class Weather
   displayProperties(data)
   {
     const weatherImg = document.querySelector('.js-weather-img');
+    const weather = data.weather[0].main.toLowerCase();
     
     weatherImg.src = `images/${weather}.png`; 
 
